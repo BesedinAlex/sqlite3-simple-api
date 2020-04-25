@@ -1,3 +1,3 @@
-import {selectData, changeData} from "./db";
+import {selectData, changeData, setDatabaseFilePath} from './db';
 
-export {selectData, changeData};
+export {selectData, changeData, setDatabaseFilePath};

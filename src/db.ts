@@ -3,17 +3,11 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 
 let db: Database;
+let databasePath = path.join(process.cwd(), 'data', 'database.sqlite3');
 const sqlite3 = verbose();
 
-/**
- * Opens database connection.
- * @param databasePath Full path to database file. Default is ./data/database.sqlite3 in project root.
- */
-function openDBConnection(databasePath?: string) {
-    if (databasePath === undefined || databasePath === null || databasePath === '') {
-        databasePath = path.join(process.cwd(), 'data', 'database.sqlite3');
-    }
-    // Creates folder to store database
+function openDBConnection() {
+    // Creates folder to store database if non already.
     const dir = path.parse(databasePath).dir;
     if (!fs.pathExistsSync(dir)) {
         fs.mkdirpSync(dir);
@@ -28,13 +22,16 @@ function openDBConnection(databasePath?: string) {
     });
 }
 
-/**
- * Detects type of passed query.
- * @param sqlQuery SQL query.
- * @returns Type of SQL query in lower case (select, update, ...)
- */
 function detectQueryType(sqlQuery: string): string {
     return sqlQuery.split(' ')[0].toLowerCase();
+}
+
+/**
+ * Sets database file path.
+ * @param path Full path of database file. Default is ./data/database.sqlite3 in project root.
+ */
+function setDatabaseFilePath(path: string) {
+    databasePath = path;
 }
 
 /**
@@ -92,4 +89,4 @@ function changeData(sqlQuery: string): Promise<number> {
     });
 }
 
-export {openDBConnection, selectData, changeData};
+export {selectData, changeData, setDatabaseFilePath};
