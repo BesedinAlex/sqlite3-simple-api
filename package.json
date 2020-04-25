@@ -1,0 +1,32 @@
+{
+  "name": "sqlite3-simple-api",
+  "description": "simple api for sqlite3",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "ts-node-dev src/index.ts",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BesedinAlex/sqlite3-simple-api"
+  },
+  "bugs": {
+    "url": "https://github.com/BesedinAlex/sqlite3-simple-api/issues"
+  },
+  "author": "Alexey Besedin",
+  "license": "MIT",
+  "keywords": [],
+  "homepage": "https://github.com/BesedinAlex/sqlite3-simple-api/blob/master/README.md",
+  "dependencies": {
+    "fs-extra": "^9.0.0",
+    "sqlite3": "^4.1.1"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^8.1.0",
+    "@types/node": "^13.13.2",
+    "@types/sqlite3": "^3.1.6",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "typescript": "^3.8.3"
+  }
+}
