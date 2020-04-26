@@ -1,11 +1,13 @@
 {
   "name": "sqlite3-simple-api",
   "description": "simple api for sqlite3",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "start": "ts-node-dev src/index.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
