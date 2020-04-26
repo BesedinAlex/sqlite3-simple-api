@@ -1,7 +1,7 @@
 {
   "name": "sqlite3-simple-api",
   "description": "simple api for sqlite3",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "dist/index.js",
   "scripts": {
     "start": "ts-node-dev src/index.ts",

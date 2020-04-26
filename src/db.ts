@@ -47,7 +47,6 @@ function selectData(sqlQuery: string, firstValueOnly = false): Promise<any> {
     return new Promise((resolve, reject) => {
         openDBConnection();
         db.all(sqlQuery, [], function (err, rows) {
-            db.close();
             if (err) {
                 console.error(err);
                 reject(err);
@@ -79,7 +78,6 @@ function changeData(sqlQuery: string): Promise<number> {
     return new Promise((resolve, reject) => {
         openDBConnection();
         db.run(sqlQuery, [], function (err) {
-            db.close();
             if (err) {
                 reject(err);
             } else if (queryType === 'insert') {
