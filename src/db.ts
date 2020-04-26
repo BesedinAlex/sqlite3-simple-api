@@ -47,8 +47,10 @@ function selectData(sqlQuery: string, firstValueOnly = false): Promise<any> {
     return new Promise((resolve, reject) => {
         openDBConnection();
         db.all(sqlQuery, [], function (err, rows) {
+            db.close();
             if (err) {
-                throw Error(String(err).replace('ERROR: ',''));
+                console.error(err);
+                reject(err);
             } else {
                 if (firstValueOnly) {
                     if (rows.length === 0) {
@@ -65,10 +67,9 @@ function selectData(sqlQuery: string, firstValueOnly = false): Promise<any> {
 }
 
 /**
- * Insert, update or delete data.
+ * Create, insert, update or delete data.
  * @param sqlQuery SQL query to execute. Expects INSERT, UPDATE or DELETE or CREATE query.
  * @returns Returns id of inserted item on SQL INSERT. Returns 1 on anything else.
- * Returns undefined if request is not expected by the function.
  */
 function changeData(sqlQuery: string): Promise<number> {
     const queryType = detectQueryType(sqlQuery);
@@ -78,6 +79,7 @@ function changeData(sqlQuery: string): Promise<number> {
     return new Promise((resolve, reject) => {
         openDBConnection();
         db.run(sqlQuery, [], function (err) {
+            db.close();
             if (err) {
                 reject(err);
             } else if (queryType === 'insert') {
