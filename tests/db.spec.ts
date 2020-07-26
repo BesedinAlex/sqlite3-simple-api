@@ -1,14 +1,14 @@
 import {expect} from 'chai';
 import {changeData, selectData} from '../src';
 
-it('changeData() should CREATE table', function () {
+it('changeData() should CREATE table', async function () {
     const sql =
         `CREATE TABLE IF NOT EXISTS 'Test' (
         'id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
         'name' TEXT NOT NULL,
         'data' INTEGER
         );`;
-    expect(changeData(sql)).not.throws;
+    expect(await changeData(sql)).not.throws;
 });
 
 it('changeData() should INSERT data', async function () {
@@ -38,5 +38,5 @@ it('selectData() should SELECT first value only', async function () {
 
 it('changeData() should DELETE data', async function () {
     const sql = `DELETE FROM Test WHERE id=${1}`;
-    expect(changeData(sql)).not.throws;
+    expect(await changeData(sql)).not.throws;
 });
