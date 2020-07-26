@@ -14,14 +14,17 @@
     "module": "commonjs",
     "moduleResolution": "Node",
     "outDir": "./dist",
-    "rootDir": "./src",
     "declaration": true,
     "declarationMap": true,
     "inlineSourceMap": true,
     "inlineSources": true,
     "allowSyntheticDefaultImports": true
   },
+  "include": [
+    "src"
+  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "tests"
   ]
 }
