@@ -22,8 +22,8 @@ function openDBConnection() {
     });
 }
 
-function detectQueryType(sqlQuery: string): string {
-    return sqlQuery.split(' ')[0].toLowerCase();
+function detectCommandType(sqlCommand: string): string {
+    return sqlCommand.split(' ')[0].toLowerCase();
 }
 
 /**
@@ -36,29 +36,30 @@ function setDatabaseFilePath(path: string) {
 
 /**
  * Selects data from database.
- * @param sqlQuery SQL query to execute. Expects SELECT query.
- * @param firstValueOnly By default returns array of objects. Pass 'true' to return first element only.
- * @returns Returns array of data or data object if you request for first value only.
+ * @template T Let's you specify type of data you expect to get.
+ * @param sqlCommand SQL command to execute. Expects SELECT command.
+ * @param firstRowOnly By default function returns array of objects. Pass 'true' to return first element only.
+ * @returns Returns promise of array of data or data object if you request for first value only.
  */
-function selectData(sqlQuery: string, firstValueOnly = false): Promise<any> {
-    if (detectQueryType(sqlQuery) !== 'select') {
+function selectData<T>(sqlCommand: string, firstRowOnly = false): Promise<T | T[]> {
+    if (detectCommandType(sqlCommand) !== 'select') {
         throw Error('selectData() expects sql SELECT query');
     }
     return new Promise((resolve, reject) => {
         openDBConnection();
-        db.all(sqlQuery, [], function (err, rows) {
+        db.all(sqlCommand, [], function (err, rows: any) {
             if (err) {
                 console.error(err);
                 reject(err);
             } else {
-                if (firstValueOnly) {
+                if (firstRowOnly) {
                     if (rows.length === 0) {
                         reject(err);
                     } else {
-                        resolve(rows[0]);
+                        resolve(rows[0] as T);
                     }
                 } else {
-                    resolve(rows);
+                    resolve(rows as T[]);
                 }
             }
         });
@@ -67,20 +68,21 @@ function selectData(sqlQuery: string, firstValueOnly = false): Promise<any> {
 
 /**
  * Create, insert, update or delete data.
- * @param sqlQuery SQL query to execute. Expects INSERT, UPDATE or DELETE or CREATE query.
- * @returns Returns id of inserted item on SQL INSERT. Returns 1 on anything else.
+ * @param sqlCommand SQL command to execute. Expects INSERT, UPDATE, DELETE or CREATE command.
+ * @returns Returns id of inserted item on SQL INSERT. Returns number of made changes on anything else.
  */
-function changeData(sqlQuery: string): Promise<number> {
-    const queryType = detectQueryType(sqlQuery);
-    if (queryType !== 'insert' && queryType !== 'update' && queryType !== 'delete' && queryType !== 'create') {
+function changeData(sqlCommand: string): Promise<number> {
+    const commandType = detectCommandType(sqlCommand);
+    if (commandType !== 'insert' && commandType !== 'update' && commandType !== 'delete' && commandType !== 'create') {
         throw Error('changeData() expects sql INSERT or UPDATE or DELETE or CREATE query');
     }
     return new Promise((resolve, reject) => {
         openDBConnection();
-        db.run(sqlQuery, [], function (err) {
+        db.run(sqlCommand, [], function (err) {
             if (err) {
+                console.error(err);
                 reject(err);
-            } else if (queryType === 'insert') {
+            } else if (commandType === 'insert') {
                 resolve(this.lastID);
             } else { // update or delete
                 resolve(this.changes);
