@@ -1,5 +1,7 @@
 # SQLite3 Simple API
 
+![Build](https://github.com/besedinalex/sqlite3-simple-api/workflows/Build/badge.svg)
+
 Makes work with `sqlite3` in your project a bit simpler than it is by default.
 All you need to do is decide where your database will be and what commands you want to pass there.
 
