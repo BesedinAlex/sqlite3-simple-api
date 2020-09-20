@@ -54,10 +54,10 @@ it('changeData() should DELETE data', async function () {
 
 it('selectData() should throw on wrong command', function () {
     const sql = `DELETE FROM Test WHERE id=${2}`;
-    expect(() => selectData(sql)).throws('selectData() expects sql SELECT query');
+    expect(() => selectData(sql)).throws('selectData() expects sql SELECT command');
 });
 
 it('changeData() should throw on wrong command', async function () {
     const sql = `SELECT * FROM Test`;
-    expect(() => changeData(sql)).throws('changeData() expects sql INSERT or UPDATE or DELETE or CREATE query');
+    expect(() => changeData(sql)).throws('changeData() expects sql INSERT or UPDATE or DELETE or CREATE command');
 });
